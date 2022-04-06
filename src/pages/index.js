@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Head from 'next/head'
 
 import Layout from '@components/Layout';
@@ -10,25 +10,45 @@ import styles from '@styles/Home.module.scss'
 export default function Home() {
   const [action, setAction] = useState();
 
+  const timerRef = useRef();
+  const isLongPress = useRef();
+
+  function startPressTimer() {
+    isLongPress.current = false;
+    timerRef.current = setTimeout(() => {
+      isLongPress.current = true;
+      setAction('longpress');
+    }, 500)
+  }
+
   function handleOnClick(e) {
     console.log('handleOnClick');
+    if ( isLongPress.current ) {
+      console.log('Is long press - not continuing.');
+      return;
+    }
     setAction('click')
   }
 
   function handleOnMouseDown() {
     console.log('handleOnMouseDown');
+    startPressTimer();
   }
 
   function handleOnMouseUp() {
     console.log('handleOnMouseUp');
+    clearTimeout(timerRef.current);
   }
 
   function handleOnTouchStart() {
     console.log('handleOnTouchStart');
+    startPressTimer();
   }
 
   function handleOnTouchEnd() {
+    if ( action === 'longpress' ) return;
     console.log('handleOnTouchEnd');
+    clearTimeout(timerRef.current);
   }
 
   return (
