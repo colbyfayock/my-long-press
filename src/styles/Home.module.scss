@@ -1,0 +1,26 @@
+@import "@styles/settings/__settings";
+
+.header {
+  font-size: 2em;
+}
+
+.homeContainer {
+
+  text-align: center;
+  font-size: 1.2em;
+
+  button {
+    margin: 0 .2em;
+  }
+
+}
+
+.clickAction {
+
+  strong {
+    display: block;
+    font-size: 1.4em;
+    margin-bottom: .5em;
+  }
+
+}
