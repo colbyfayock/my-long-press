@@ -11,7 +11,24 @@ export default function Home() {
   const [action, setAction] = useState();
 
   function handleOnClick(e) {
+    console.log('handleOnClick');
     setAction('click')
+  }
+
+  function handleOnMouseDown() {
+    console.log('handleOnMouseDown');
+  }
+
+  function handleOnMouseUp() {
+    console.log('handleOnMouseUp');
+  }
+
+  function handleOnTouchStart() {
+    console.log('handleOnTouchStart');
+  }
+
+  function handleOnTouchEnd() {
+    console.log('handleOnTouchEnd');
   }
 
   return (
@@ -25,8 +42,14 @@ export default function Home() {
         <h1>Click or Press!</h1>
 
         <p>
-          <Button onClick={handleOnClick}>
-            Click Me
+          <Button
+            onClick={handleOnClick}
+            onMouseDown={handleOnMouseDown}
+            onMouseUp={handleOnMouseUp}
+            onTouchStart={handleOnTouchStart}
+            onTouchEnd={handleOnTouchEnd}
+          >
+            Click or Press Me
           </Button>
           <Button data-color="gray" onClick={() => setAction(undefined)}>
             Reset
