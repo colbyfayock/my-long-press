@@ -5,51 +5,13 @@ import Layout from '@components/Layout';
 import Container from '@components/Container';
 import Button from '@components/Button';
 
+import useLongPress from '@hooks/use-long-press';
+
 import styles from '@styles/Home.module.scss'
 
 export default function Home() {
-  const [action, setAction] = useState();
-
-  const timerRef = useRef();
-  const isLongPress = useRef();
-
-  function startPressTimer() {
-    isLongPress.current = false;
-    timerRef.current = setTimeout(() => {
-      isLongPress.current = true;
-      setAction('longpress');
-    }, 500)
-  }
-
-  function handleOnClick(e) {
-    console.log('handleOnClick');
-    if ( isLongPress.current ) {
-      console.log('Is long press - not continuing.');
-      return;
-    }
-    setAction('click')
-  }
-
-  function handleOnMouseDown() {
-    console.log('handleOnMouseDown');
-    startPressTimer();
-  }
-
-  function handleOnMouseUp() {
-    console.log('handleOnMouseUp');
-    clearTimeout(timerRef.current);
-  }
-
-  function handleOnTouchStart() {
-    console.log('handleOnTouchStart');
-    startPressTimer();
-  }
-
-  function handleOnTouchEnd() {
-    if ( action === 'longpress' ) return;
-    console.log('handleOnTouchEnd');
-    clearTimeout(timerRef.current);
-  }
+  const { action, handlers } = useLongPress();
+  const { action: otherAction, handlers: otherHandlers } = useLongPress();
 
   return (
     <Layout>
@@ -62,16 +24,10 @@ export default function Home() {
         <h1>Click or Press!</h1>
 
         <p>
-          <Button
-            onClick={handleOnClick}
-            onMouseDown={handleOnMouseDown}
-            onMouseUp={handleOnMouseUp}
-            onTouchStart={handleOnTouchStart}
-            onTouchEnd={handleOnTouchEnd}
-          >
+          <Button {...handlers}>
             Click or Press Me
           </Button>
-          <Button data-color="gray" onClick={() => setAction(undefined)}>
+          <Button data-color="gray" {...otherHandlers}>
             Reset
           </Button>
         </p>
